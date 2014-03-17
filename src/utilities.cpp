@@ -59,6 +59,7 @@ namespace mimo_svr{
 			mat n1sq = sum(pow(inputA,2));	
 			mat tmp = trans(ones(n2,1)*n1sq) + ones(n1,1)*n2sq - 2.0*trans(inputA)*inputB;
 
+
 			result = exp(-pow(tmp,2) / (2.0*param*param));			
 		}
 

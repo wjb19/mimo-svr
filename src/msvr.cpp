@@ -37,8 +37,6 @@ namespace mimo_svr{
 
 	msvr::msvr(mat Xtrain, mat Ytrain,string ker,double C,double epsi, double param, double tol){
 
-
-
 		// kernel matrix from samples
 		H = k_mat(trans(Xtrain),trans(Xtrain),ker,param);
 
@@ -52,7 +50,6 @@ namespace mimo_svr{
 		mat E		= Ytrain - H*Beta;
 		
 		mat u		= sqrt(sum(pow(E,2),1));
-
 
 		mat RMSE	= zeros(MX_ITS,1);
 		RMSE(0,0)	= sqrt(mean_all(pow(u,2)));
