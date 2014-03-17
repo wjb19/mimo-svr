@@ -30,7 +30,7 @@
 
 
 #include <iostream>
-#include "data_msvr.hpp"
+#include "msvr.hpp"
 #include "armadillo"
 #include "utilities.hpp"
 #include "msvr.hpp"
@@ -47,24 +47,27 @@ int main(int argc, char * argv[]){
 
 
 	mat Xtest, Xtrain, Ytest, Ytrain;
-	Xtest.load("Xtest.txt");
-	Xtrain.load("Xtrain.txt");
-	Ytest.load("Ytest.txt");
-	Ytrain.load("Ytrain.txt");
+	Xtrain.load(argv[1]);
+	Xtest.load(argv[2]);
+	Ytrain.load(argv[3]);
+	Ytest.load(argv[4]);
 
 	double param 	= 0.01*mean_all(pdist(Xtest));
-	double epsi 	= 1.0f,C = 1.0f, tol = 1e-20;
+	double epsi 	= 2.0f,C = 5.0f, tol = 1e-20;
 
-	msvr train(Xtrain,Ytrain,"rbf",C,epsi,param,tol);
-
+	msvr trainA(Xtrain,Ytrain,"rbf",C,epsi,param,tol);
 	mat Ktest 	= k_mat(trans(Xtest),trans(Xtrain),"rbf",param);
-	mat Ypred 	= Ktest*train.getBeta();
+	mat Ypred 	= Ktest*trainA.getBeta();
 
+	double length = size(Ypred,1);
+	mat diff = sqrt(sum(pow((Ypred-Ytest),2))/length);
 
-	//cout << "Ypred: " << endl;
-	//cout << Ypred << endl;
-	//cout << "Ytest: " << endl;
-	//cout << Ytest << endl;
+	cout << "RMSE: " << endl;
+	cout << diff << endl;
+	cout << "Ypred: " << endl;
+	cout << Ypred << endl;
+	cout << "Ytest: " << endl;
+	cout << Ytest << endl;
 	
 	return 0;
 

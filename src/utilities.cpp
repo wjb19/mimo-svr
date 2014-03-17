@@ -53,10 +53,11 @@ namespace mimo_svr{
 		}
 
 		else{
-			mat nsq = sum(pow(inputB,2));
-			double n = size(inputB,1);
+			mat n2sq = sum(pow(inputB,2));
+			double n1 = size(inputA,1);
+			double n2 = size(inputB,1);
 			mat n1sq = sum(pow(inputA,2));	
-			mat tmp = trans(ones(n,1)*n1sq) + ones(n,1)*nsq - 2.0*trans(inputA)*inputB;
+			mat tmp = trans(ones(n2,1)*n1sq) + ones(n1,1)*n2sq - 2.0*trans(inputA)*inputB;
 
 			result = exp(-pow(tmp,2) / (2.0*param*param));			
 		}
